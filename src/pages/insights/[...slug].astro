@@ -15,7 +15,7 @@ const { Content } = await render(post);
 const d = post.data.date.toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' });
 const ld = { '@context': 'https://schema.org', '@type': 'BlogPosting', headline: post.data.title, description: post.data.description, datePublished: post.data.date.toISOString(), author: { '@type': 'Organization', name: post.data.author }, publisher: { '@type': 'Organization', name: 'Rush Fox Security and CCTV (Pty) Ltd' } };
 ---
-<Base title={post.data.title} description={post.data.description} type="article">
+<Base title={post.data.title} description={post.data.description} type="article" crumbs={[{ name: 'Insights', href: '/insights/' }, { name: post.data.title, href: `/insights/${post.id}/` }]}>
   <script type="application/ld+json" set:html={JSON.stringify(ld)} />
   <PageHead kicker="Insights" title={post.data.title} text={post.data.description} />
   <article class="article">

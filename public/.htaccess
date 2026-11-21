@@ -1,0 +1,28 @@
+# Rush Fox Security – Apache rules (Hostinger)
+Options -Indexes
+ErrorDocument 404 /404.html
+
+<IfModule mod_rewrite.c>
+  RewriteEngine On
+  # Block hidden files and folders (.git, .hostinger, etc.)
+  RewriteRule (^|/)\.(?!well-known/) - [F,L]
+  # Canonical host: www.rushfox.co.za -> rushfox.co.za (keeps http/https as requested)
+  RewriteCond %{HTTP_HOST} ^www\.rushfox\.co\.za$ [NC]
+  RewriteRule ^(.*)$ %{REQUEST_SCHEME}://rushfox.co.za/$1 [R=301,L]
+</IfModule>
+
+<IfModule mod_headers.c>
+  Header always set X-Content-Type-Options "nosniff"
+  Header always set Referrer-Policy "strict-origin-when-cross-origin"
+  Header always set X-Frame-Options "SAMEORIGIN"
+  Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+  <FilesMatch "\.(woff2|css|js)$">
+    Header set Cache-Control "public, max-age=31536000, immutable"
+  </FilesMatch>
+  <FilesMatch "\.(jpg|jpeg|png|svg|webp|ico|pdf)$">
+    Header set Cache-Control "public, max-age=2592000"
+  </FilesMatch>
+  <FilesMatch "\.html$">
+    Header set Cache-Control "public, max-age=600"
+  </FilesMatch>
+</IfModule>

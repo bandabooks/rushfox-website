@@ -15,7 +15,7 @@ const { cat, posts } = Astro.props;
 const all = await publishedInsights();
 const used = insightCategories.filter((c) => all.some((p) => p.data.category === c));
 ---
-<Base title={`${cat} | Insights`} description={`${cat} articles from Rush Fox Security.`}>
+<Base title={`${cat} | Insights`} noindex description={`${cat} articles and practical security guidance from Rush Fox Security, Mokopane and Polokwane.`}>
   <PageHead kicker="Insights" title={cat} />
   <section class="sec">
     <div class="wrap">

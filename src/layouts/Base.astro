@@ -3,11 +3,12 @@ import '@fontsource-variable/montserrat';
 import '@fontsource-variable/inter';
 import '../styles/global.css';
 import Icon from '../components/Icon.astro';
-import { company, tel } from '../data/company';
+import { company, tel, manned, tech, consulting } from '../data/company';
 
-interface Props { title: string; description: string; image?: string; type?: 'website' | 'article' }
-const { title, description, image = '/brand/og-image.jpg', type = 'website' } = Astro.props;
-const fullTitle = title === 'Home' ? `${company.tradingName} | Guarding, CCTV & Access Control in Limpopo` : `${title} | ${company.tradingName}`;
+interface Props { title: string; description: string; image?: string; type?: 'website' | 'article'; seoTitle?: string; noindex?: boolean; crumbs?: { name: string; href: string }[] }
+const { title, description, image = '/brand/og-image.jpg', type = 'website', seoTitle, noindex = false, crumbs = [] } = Astro.props;
+const withBrand = `${title} | ${company.tradingName}`;
+const fullTitle = seoTitle ?? (title === 'Home' ? `${company.tradingName} | Guarding, CCTV & Access Control, Limpopo` : withBrand.length <= 62 ? withBrand : title);
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(image, Astro.site);
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
@@ -32,8 +33,23 @@ const ld = {
   email: company.email,
   telephone: company.phones.map((p) => tel(p).replace('tel:', '')),
   address: { '@type': 'PostalAddress', streetAddress: company.address.line1, addressLocality: company.address.city, addressRegion: company.address.province, postalCode: company.address.postalCode, addressCountry: 'ZA' },
-  areaServed: company.areas.map((a) => ({ '@type': 'City', name: a })),
+  areaServed: [...company.areas.map((a) => ({ '@type': 'City', name: a })), { '@type': 'State', name: 'Limpopo' }, { '@type': 'Country', name: 'South Africa' }],
+  contactPoint: [
+    ...company.emails.map((e) => ({ '@type': 'ContactPoint', contactType: e.label, email: e.address, telephone: tel(company.phones[0]).replace('tel:', ''), areaServed: 'ZA', availableLanguage: ['en'] })),
+  ],
+  identifier: [
+    { '@type': 'PropertyValue', propertyID: 'CIPC registration', value: company.registrations.cipc },
+    { '@type': 'PropertyValue', propertyID: 'PSiRA registration', value: company.registrations.psira },
+  ],
+  founder: { '@type': 'Person', name: company.director },
+  foundingDate: '2021-05-20',
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog', name: 'Security services',
+    itemListElement: [...manned, ...tech, ...consulting].map((s) => ({ '@type': 'Offer', itemOffered: { '@type': 'Service', name: s.title, description: s.text } })),
+  },
 };
+const site = { '@context': 'https://schema.org', '@type': 'WebSite', name: company.tradingName, url: Astro.site?.toString(), inLanguage: 'en-ZA' };
+const bc = crumbs.length ? { '@context': 'https://schema.org', '@type': 'BreadcrumbList', itemListElement: [{ name: 'Home', href: '/' }, ...crumbs].map((c, i) => ({ '@type': 'ListItem', position: i + 1, name: c.name, item: new URL(c.href, Astro.site).toString() })) } : null;
 ---
 <!doctype html>
 <html lang="en-ZA">
@@ -56,7 +72,14 @@ const ld = {
   <meta name="twitter:card" content="summary_large_image" />
   <link rel="alternate" type="application/rss+xml" title="Rush Fox Insights" href="/insights/rss.xml" />
   <link rel="sitemap" href="/sitemap-index.xml" />
-  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+  {noindex && <meta name="robots" content="noindex, follow" />}
+  <meta property="og:site_name" content={company.tradingName} />
+  <meta property="og:image:alt" content="Rush Fox Security & CCTV logo" />
+  <meta name="geo.region" content="ZA-LP" />
+  <meta name="geo.placename" content="Mokopane" />
+  {path === '/' && <script type="application/ld+json" set:html={JSON.stringify(ld)} />}
+  {path === '/' && <script type="application/ld+json" set:html={JSON.stringify(site)} />}
+  {bc && <script type="application/ld+json" set:html={JSON.stringify(bc)} />}
 </head>
 <body>
   <a class="skip" href="#main">Skip to content</a>

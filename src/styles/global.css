@@ -226,3 +226,12 @@ input,select,textarea{font-size:16px}
   .phead{padding:44px 0 40px}
   .topbar a{font-size:.78rem}
 }
+
+.combo-list li.combo-group{font-family:var(--head);font-weight:700;font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--amber-dk);padding:12px 12px 4px;cursor:default;background:none!important}
+.hp{position:absolute!important;left:-10000px;width:1px;height:1px;overflow:hidden}
+.form-status{margin-top:18px;padding:16px 18px;border-radius:8px;font-size:.95rem}
+.form-status.ok{background:#EAF7EF;border-left:5px solid #1E9E55;color:#14532D}
+.form-status.err{background:#FFF5EA;border-left:5px solid var(--amber);color:var(--ink)}
+.fs-actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:12px}
+button[disabled]{opacity:.7;cursor:wait}
+.qlink{display:inline-flex;align-items:center;gap:6px;margin-top:10px;font-family:var(--head);font-weight:700;font-size:.85rem;color:var(--amber-dk);text-decoration:none}.qlink:hover{text-decoration:underline}

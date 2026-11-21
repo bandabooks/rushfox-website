@@ -8,7 +8,7 @@ import { insightCategories } from '../../data/company';
 const posts = await publishedInsights();
 const used = insightCategories.filter((c) => posts.some((p) => p.data.category === c));
 ---
-<Base title="Insights" description="Security tips, CCTV and access control guidance, compliance updates and company news from Rush Fox Security.">
+<Base title="Insights" seoTitle="Security Tips & Insights | Rush Fox Security" crumbs={[{ name: 'Insights', href: '/insights/' }]} description="Practical security tips, CCTV and access control guidance, compliance updates and company news from Rush Fox Security in Limpopo.">
   <PageHead kicker="Insights" title="Security insights" text="Practical advice on guarding, CCTV, access control and keeping your business secure, published weekly." />
   <section class="sec">
     <div class="wrap">

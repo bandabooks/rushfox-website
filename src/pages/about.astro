@@ -6,7 +6,7 @@ import CtaBand from '../components/CtaBand.astro';
 import { company, values, clients } from '../data/company';
 const r = company.registrations;
 ---
-<Base title="About Us" description="Rush Fox Security and CCTV (Pty) Ltd is a 100% black-owned, PSiRA-registered security company headquartered in Mokopane, Limpopo, combining guarding with modern electronic security.">
+<Base title="About Us" seoTitle="About Rush Fox Security | Security Company in Mokopane" crumbs={[{ name: 'About', href: '/about/' }]} description="100% black-owned, PSiRA-registered security company in Mokopane, Limpopo, combining trained guards with CCTV, access control and alarm technology.">
   <PageHead kicker="About Us" title="A South African security company built on people and technology" text="100% black-owned, PSiRA-registered and headquartered in Mokopane, Limpopo." />
 
   <section class="sec">

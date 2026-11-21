@@ -5,9 +5,14 @@ import PageHead from '../components/PageHead.astro';
 import Combo from '../components/Combo.astro';
 import { company, tel, manned, tech, consulting } from '../data/company';
 import { places, provinces } from '../data/places';
-const services = ['General enquiry', 'Integrated security solution', ...manned.map((s) => s.title), ...tech.map((s) => s.title), ...consulting.map((s) => s.title)];
+const services = [
+  '## General', 'General enquiry', 'Integrated security solution (guarding + technology)', 'Free site risk assessment',
+  '## Manned guarding & protection', ...manned.map((s) => s.title),
+  '## Electronic security & technology', ...tech.map((s) => s.title),
+  '## Consulting & support', ...consulting.map((s) => s.title),
+];
 ---
-<Base title="Contact" description="Contact Rush Fox Security in Mokopane, Limpopo for a free site risk assessment and quotation for guarding, CCTV, access control or alarms.">
+<Base title="Contact" seoTitle="Contact Rush Fox Security | Free Site Risk Assessment" crumbs={[{ name: 'Contact', href: '/contact/' }]} description="Request a free site risk assessment or quote for guarding, CCTV, access control or alarms. Call 076 339 3561, WhatsApp 062 859 3706 or email info@rushfox.co.za.">
   <PageHead kicker="Contact" title="Let's secure your site" text="Request a free site risk assessment and quotation for guarding, CCTV, access control or a fully integrated security solution." />
 
   <section class="sec">
@@ -27,7 +32,9 @@ const services = ['General enquiry', 'Integrated security solution', ...manned.m
 
       <form class="quote" id="quote" aria-labelledby="qh">
         <h2 id="qh" style="font-size:1.6rem">Request a quote</h2>
-        <p class="small">Complete the form and press send. Your email app opens with the details filled in, ready to send to {company.email}.</p>
+        <p class="small">Complete the form and press send. Your enquiry goes straight to our team at {company.email}. We respond within one business day.</p>
+        <div class="hp" aria-hidden="true"><label for="website">Leave this field empty</label><input id="website" name="website" tabindex="-1" autocomplete="off" /></div>
+        <input type="hidden" id="ts" name="ts" />
         <div class="fg">
           <div class="field"><label for="name">Full name *</label><input id="name" name="name" required autocomplete="name" /></div>
           <div class="field"><label for="org">Company / organisation</label><input id="org" name="org" autocomplete="organization" /></div>
@@ -41,14 +48,15 @@ const services = ['General enquiry', 'Integrated security solution', ...manned.m
         </div>
         <div class="field"><label for="street">Street address (optional)</label><input id="street" name="street" autocomplete="street-address" placeholder="Site street address" /></div>
         <div class="field"><label for="msg">Tell us about your site</label><textarea id="msg" name="msg" rows="5" placeholder="Type of premises, number of entrances, hours of cover needed, existing systems..."></textarea></div>
-        <div class="field" style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox" id="consent" required style="width:auto;margin-top:5px" /><label for="consent" style="font-weight:400">I agree that Rush Fox Security may use these details to respond to my enquiry, as set out in the <a href="/privacy">privacy notice</a>. *</label></div>
-        <button class="btn btn-amber" type="submit">Send enquiry <Icon name="arrow" size={18} /></button>
+        <div class="field" style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox" id="consent" name="consent" value="1" required style="width:auto;margin-top:5px" /><label for="consent" style="font-weight:400">I agree that Rush Fox Security may use these details to respond to my enquiry, as set out in the <a href="/privacy">privacy notice</a>. *</label></div>
+        <button class="btn btn-amber" type="submit" id="send">Send enquiry <Icon name="arrow" size={18} /></button>
+        <div id="status" class="form-status" role="status" aria-live="polite" hidden></div>
       </form>
     </div>
   </section>
 </Base>
 
-<script define:vars={{ to: company.email, places }}>
+<script define:vars={{ to: company.email, places, wa_num: company.whatsapp, phone: company.phones[0] }}>
   // ---------- searchable dropdowns ----------
   const combos = {};
   document.querySelectorAll('[data-combo]').forEach((root) => {
@@ -61,16 +69,26 @@ const services = ['General enquiry', 'Integrated security solution', ...manned.m
     const norm = (t) => t.toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
     const render = (showAll) => {
       const q = showAll ? '' : norm(input.value.trim());
-      const hits = opts.filter((o) => norm(o).includes(q));
+      const hits = [];
+      let group = null, groupShown = false;
+      opts.forEach((o) => {
+        if (o.startsWith('## ')) { group = o.slice(3); groupShown = false; return; }
+        if (!norm(o).includes(q)) return;
+        if (group && !groupShown) { hits.push({ header: group }); groupShown = true; }
+        hits.push({ value: o });
+      });
       list.innerHTML = '';
-      hits.forEach((o, i) => {
+      let i = 0;
+      hits.forEach((h) => {
         const li = document.createElement('li');
-        li.role = 'option'; li.textContent = o; li.id = `${input.id}-opt-${i}`;
+        if (h.header) { li.className = 'combo-group'; li.textContent = h.header; li.setAttribute('role', 'presentation'); list.appendChild(li); return; }
+        const o = h.value;
+        li.role = 'option'; li.textContent = o; li.id = `${input.id}-opt-${i++}`;
         if (o === input.value) li.setAttribute('aria-selected', 'true');
         li.addEventListener('mousedown', (e) => { e.preventDefault(); choose(o); });
         list.appendChild(li);
       });
-      if (!hits.length) {
+      if (!hits.some((h) => h.value)) {
         const li = document.createElement('li');
         li.className = 'combo-empty';
         li.textContent = free && input.value.trim() ? `Use "${input.value.trim()}"` : 'No match';
@@ -105,7 +123,7 @@ const services = ['General enquiry', 'Integrated security solution', ...manned.m
     });
     input.addEventListener('blur', () => {
       setTimeout(close, 120);
-      const exact = opts.find((o) => norm(o) === norm(input.value.trim()));
+      const exact = opts.find((o) => !o.startsWith('## ') && norm(o) === norm(input.value.trim()));
       if (exact) { input.value = exact; input.dispatchEvent(new CustomEvent('combo:change', { detail: exact })); }
       else if (!free && input.value.trim()) input.setCustomValidity('Please choose an option from the list.');
       else input.setCustomValidity('');
@@ -124,17 +142,43 @@ const services = ['General enquiry', 'Integrated security solution', ...manned.m
     town.input.placeholder = list.length ? 'Search or type your town / suburb' : 'Type your town and country';
   });
 
+  // Preselect service from ?service=... (links on the Services page)
+  const qs = new URLSearchParams(location.search).get('service');
+  if (qs) { const svc = document.getElementById('service'); svc.value = qs; }
+  document.getElementById('ts').value = String(Date.now());
+
   // ---------- send ----------
   const f = document.getElementById('quote');
-  f.addEventListener('submit', (e) => {
+  const statusBox = document.getElementById('status');
+  const btn = document.getElementById('send');
+  const v = (id) => (document.getElementById(id).value || '').trim();
+  const summary = () => [
+    `Name: ${v('name')}`, `Company: ${v('org')}`, `Phone: ${v('phone')}`, `Email: ${v('email')}`,
+    `Service: ${v('service')}`, `Province: ${v('province')}`, `Town / suburb: ${v('town')}`, `Street address: ${v('street')}`, '', v('msg'),
+  ].join('\n');
+  const show = (html, kind) => { statusBox.hidden = false; statusBox.className = `form-status ${kind}`; statusBox.innerHTML = html; statusBox.scrollIntoView({ block: 'nearest', behavior: 'smooth' }); };
+
+  f.addEventListener('submit', async (e) => {
     e.preventDefault();
     if (!f.reportValidity()) return;
-    const v = (id) => (document.getElementById(id).value || '').trim();
-    const subject = `Quote request: ${v('service')} - ${v('org') || v('name')} (${v('town')}, ${v('province')})`;
-    const body = [
-      `Name: ${v('name')}`, `Company: ${v('org')}`, `Phone: ${v('phone')}`, `Email: ${v('email')}`,
-      `Service: ${v('service')}`, `Province: ${v('province')}`, `Town / suburb: ${v('town')}`, `Street address: ${v('street')}`, '', v('msg'),
-    ].join('\n');
-    window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
+    btn.disabled = true; btn.dataset.label = btn.innerHTML; btn.textContent = 'Sending…';
+    const data = Object.fromEntries(new FormData(f).entries());
+    data.consent = document.getElementById('consent').checked ? '1' : '';
+    try {
+      const res = await fetch('/send.php', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(data) });
+      const out = await res.json().catch(() => ({}));
+      if (res.ok && out.ok) {
+        f.reset(); document.getElementById('ts').value = String(Date.now());
+        document.getElementById('town').disabled = true;
+        show('<b>Thank you – your enquiry has been sent.</b><br>Our team will contact you within one business day. For urgent matters call ' + phone + '.', 'ok');
+      } else { throw new Error(out.error || 'Send failed'); }
+    } catch (err) {
+      const subject = `Quote request: ${v('service')} - ${v('org') || v('name')} (${v('town')}, ${v('province')})`;
+      const mail = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(summary())}`;
+      const wa = wa_num ? `https://wa.me/${wa_num}?text=${encodeURIComponent('Hello Rush Fox Security, ' + subject + '\n\n' + summary())}` : '';
+      show('<b>We could not send the form just now.</b> Please send your enquiry another way – your details are filled in:<div class="fs-actions">' +
+        (wa ? `<a class="btn btn-amber btn-sm" href="${wa}" target="_blank" rel="noopener">Send on WhatsApp</a>` : '') +
+        `<a class="btn btn-navy btn-sm" href="${mail}">Send by email</a></div>`, 'err');
+    } finally { btn.disabled = false; btn.innerHTML = btn.dataset.label; }
   });
 </script>

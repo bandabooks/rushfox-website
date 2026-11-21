@@ -4,8 +4,8 @@ import sitemap from '@astrojs/sitemap';
 
 // SITE_URL: set to the final domain before going live (used for sitemap, RSS and social previews).
 export default defineConfig({
-  site: process.env.SITE_URL || 'https://www.rushfox.co.za',
+  site: process.env.SITE_URL || 'https://rushfox.co.za',
   trailingSlash: 'ignore',
   build: { format: 'directory' },
-  integrations: [sitemap()],
+  integrations: [sitemap({ filter: (page) => !page.includes('/insights/category/') && !page.includes('/404') })],
 });

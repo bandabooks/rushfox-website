@@ -52,10 +52,14 @@ npm run build    # output in dist/
    Advanced → Git → Deploy). To make updates automatic, give the Hostinger GitHub app access to this repository
    (GitHub → Settings → Applications → Hostinger → Repository access), then switch the site to auto-deployment.
 4. In GitHub, go to Settings → Secrets and variables → Actions → Variables and add `SITE_URL`
-   (e.g. `https://www.rushfox.co.za`).
+   (e.g. `https://rushfox.co.za`).
 
 ## Open items before launch
 
 - Domain: rushfox.co.za (registered 21/11/2026). Create mailboxes info@, accounts@ and compliance@.
 - Optional: add photos of officers on duty and CCTV installations to `public/img/`.
-- The quote form opens the visitor's email app. A server-side form (Hostinger PHP mail or a form service) can be added later.
+- Quote form: `public/send.php` emails enquiries to info@rushfox.co.za (honeypot, timing check and 5-per-hour rate limit).
+  If sending fails, the visitor is offered WhatsApp and email buttons with their details filled in.
+- SEO: `public/robots.txt`, sitemap (`/sitemap-index.xml`), structured data (LocalBusiness, WebSite, BreadcrumbList,
+  BlogPosting), and `public/.htaccess` (404 page, caching, security headers, www → rushfox.co.za, blocks hidden files).
+  After launch, submit the sitemap in Google Search Console and create a Google Business Profile.
