@@ -1,0 +1,16 @@
+---
+// Searchable dropdown (combobox): type to filter, click or use arrow keys + Enter to choose.
+// freeText: when true, a typed value that is not in the list is accepted (e.g. a suburb we did not list).
+interface Props { id: string; label: string; options: string[]; placeholder?: string; required?: boolean; freeText?: boolean; value?: string; disabled?: boolean }
+const { id, label, options, placeholder = 'Type to search…', required = false, freeText = false, value = '', disabled = false } = Astro.props;
+---
+<div class="field combo" data-combo data-free={freeText ? '1' : '0'}>
+  <label for={id}>{label}{required && ' *'}</label>
+  <div class="combo-box">
+    <input id={id} name={id} type="text" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls={`${id}-list`} autocomplete="off" placeholder={placeholder} required={required} value={value} disabled={disabled} />
+    <button type="button" class="combo-toggle" tabindex="-1" aria-label={`Show ${label} options`}>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9l6 6 6-6"/></svg>
+    </button>
+  </div>
+  <ul id={`${id}-list`} class="combo-list" role="listbox" hidden data-options={JSON.stringify(options)}></ul>
+</div>
