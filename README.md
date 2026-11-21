@@ -53,9 +53,6 @@ npm run build    # output in dist/
 
 ## Open items before launch
 
-- Register the domain (recommended: `rushfox.co.za`). If a different domain is chosen, change `DOMAIN` in
-  `src/data/company.ts` and `SITE_URL`. All email addresses update automatically.
-- Create the mailboxes info@, accounts@ and compliance@ on the domain before launch.
-- Add the company profile PDF to `public/docs/` once it is reissued with the new contact details.
+- Domain: rushfox.co.za (registered 21/11/2026). Create mailboxes info@, accounts@ and compliance@.
 - Optional: add photos of officers on duty and CCTV installations to `public/img/`.
 - The quote form opens the visitor's email app. A server-side form (Hostinger PHP mail or a form service) can be added later.
