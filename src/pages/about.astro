@@ -1,0 +1,75 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PageHead from '../components/PageHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { company, values, clients } from '../data/company';
+const r = company.registrations;
+---
+<Base title="About Us" description="Rush Fox Security and CCTV (Pty) Ltd is a 100% black-owned, PSiRA-registered security company headquartered in Mokopane, Limpopo, combining guarding with modern electronic security.">
+  <PageHead kicker="About Us" title="A South African security company built on people and technology" text="100% black-owned, PSiRA-registered and headquartered in Mokopane, Limpopo." />
+
+  <section class="sec">
+    <div class="wrap split" style="align-items:start">
+      <div>
+        <div class="kicker">Who we are</div>
+        <p style="font-size:1.15rem;color:var(--navy);font-weight:500">{company.legalName}, trading as <b>{company.tradingName}</b>, is a 100% black-owned private security company registered with CIPC in May 2021 and with the Private Security Industry Regulatory Authority (PSiRA).</p>
+        <p>Headquartered in Mokopane, Limpopo, we protect retail stores, wholesalers, commercial properties and businesses across Mokopane and Polokwane. Our model combines disciplined, PSiRA-registered security officers on the ground with modern electronic security: CCTV surveillance, access control, alarms and perimeter protection, so every site is guarded, watched and recorded.</p>
+        <p>The company was founded by Malesela Fanny Banda in response to rising crime and the gap between what clients need and what the market was delivering. Our goal is to be the security partner that private and public sector clients can rely on: fully compliant, responsive and accountable.</p>
+      </div>
+      <div class="glance">
+        <h3>At a glance</h3>
+        <table>
+          <tr><td>Registered name</td><td>{company.legalName}</td></tr>
+          <tr><td>Trading name</td><td>{company.tradingName}</td></tr>
+          <tr><td>Company reg. no.</td><td>{r.cipc}</td></tr>
+          <tr><td>Incorporated</td><td>{company.founded}</td></tr>
+          <tr><td>PSiRA business reg.</td><td>{r.psira}</td></tr>
+          <tr><td>Ownership</td><td>100% black-owned</td></tr>
+          <tr><td>B-BBEE status</td><td>{r.bbbee}, 135% procurement recognition</td></tr>
+          <tr><td>Head office</td><td>Mokopane, Limpopo</td></tr>
+          <tr><td>Operations</td><td>Mokopane &amp; Polokwane; deployable nationally</td></tr>
+          <tr><td>Director</td><td>{company.directorShort}</td></tr>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec tint">
+    <div class="wrap grid g2">
+      <div class="vm"><Icon name="eye" size={34} /><h3>Vision</h3><p style="margin:0">To be one of South Africa's most trusted and recognised security companies, known for integrity, compliance and the smart use of security technology.</p></div>
+      <div class="vm"><Icon name="guard" size={34} /><h3>Mission</h3><p style="margin:0">To protect our clients' people, assets and operations with well-trained officers, reliable electronic systems and fast, accountable service, delivered in full compliance with South African law.</p></div>
+    </div>
+    <div class="wrap" style="margin-top:56px">
+      <div class="kicker">Our core values</div>
+      <h2>What we stand for</h2>
+      <div class="grid g5" style="margin-top:24px">{values.map((v) => <div class="val"><b>{v.title}</b><p>{v.text}</p></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec">
+    <div class="wrap split">
+      <div>
+        <div class="kicker">Leadership</div>
+        <h2>Owner-managed, hands-on leadership</h2>
+        <h3 style="margin-top:20px">{company.director}</h3>
+        <p class="eyebrow" style="color:var(--amber-dk);margin-bottom:12px">Founder &amp; Director</p>
+        <p>Founder and sole director of Rush Fox Security. A PSiRA-registered security officer trained to Grade A (Grades E to A completed in 2022), Mr Banda leads strategy, client relationships and compliance personally, so every client has direct access to decision-making.</p>
+      </div>
+      <div class="grid g2">
+        <figure class="photo" style="margin:0"><img src="/img/fleet2.jpg" alt="Rush Fox supervision and response vehicle" width="1200" height="800" loading="lazy" /></figure>
+        <figure class="photo" style="margin:0"><img src="/img/fleet3.jpg" alt="Rush Fox patrol bakkie on site" width="1200" height="800" loading="lazy" /></figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec tint">
+    <div class="wrap">
+      <div class="kicker">Clients we have served</div>
+      <h2>Trusted by local business</h2>
+      <div class="chips" style="margin-top:20px">{clients.map((c) => <span>{c}</span>)}</div>
+    </div>
+  </section>
+
+  <section class="sec"><div class="wrap"><CtaBand /></div></section>
+</Base>

@@ -1,0 +1,14 @@
+---
+import Icon from './Icon.astro';
+import { company, tel } from '../data/company';
+---
+<div class="cta-band">
+  <div>
+    <h2>Let's secure your site.</h2>
+    <p style="margin:0">Request a free site risk assessment and quotation for guarding, CCTV, access control or a fully integrated security solution.</p>
+  </div>
+  <div style="display:flex;gap:12px;flex-wrap:wrap">
+    <a class="btn btn-amber" href="/contact#quote">Request a Quote <Icon name="arrow" size={18} /></a>
+    <a class="btn btn-ghost" href={tel(company.phones[0])}><Icon name="phone" size={18} /> {company.phones[0]}</a>
+  </div>
+</div>

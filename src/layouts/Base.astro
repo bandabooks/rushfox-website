@@ -1,0 +1,120 @@
+---
+import '@fontsource-variable/montserrat';
+import '@fontsource-variable/inter';
+import '../styles/global.css';
+import Icon from '../components/Icon.astro';
+import { company, tel } from '../data/company';
+
+interface Props { title: string; description: string; image?: string; type?: 'website' | 'article' }
+const { title, description, image = '/brand/og-image.jpg', type = 'website' } = Astro.props;
+const fullTitle = title === 'Home' ? `${company.tradingName} | Guarding, CCTV & Access Control in Limpopo` : `${title} | ${company.tradingName}`;
+const canonical = new URL(Astro.url.pathname, Astro.site);
+const ogImage = new URL(image, Astro.site);
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const nav = [
+  { href: '/', label: 'Home' },
+  { href: '/about', label: 'About' },
+  { href: '/services', label: 'Services' },
+  { href: '/compliance', label: 'Compliance' },
+  { href: '/insights', label: 'Insights' },
+  { href: '/contact', label: 'Contact' },
+];
+const active = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
+const ld = {
+  '@context': 'https://schema.org',
+  '@type': 'LocalBusiness',
+  name: company.legalName,
+  alternateName: company.tradingName,
+  description: 'PSiRA-registered security company providing manned guarding, CCTV surveillance, access control, alarms and perimeter security.',
+  url: Astro.site?.toString(),
+  logo: new URL('/brand/icon-512.png', Astro.site).toString(),
+  image: ogImage.toString(),
+  email: company.email,
+  telephone: company.phones.map((p) => tel(p).replace('tel:', '')),
+  address: { '@type': 'PostalAddress', streetAddress: company.address.line1, addressLocality: company.address.city, addressRegion: company.address.province, postalCode: company.address.postalCode, addressCountry: 'ZA' },
+  areaServed: company.areas.map((a) => ({ '@type': 'City', name: a })),
+};
+---
+<!doctype html>
+<html lang="en-ZA">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{fullTitle}</title>
+  <meta name="description" content={description} />
+  <link rel="canonical" href={canonical} />
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="/favicon-32.png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+  <meta name="theme-color" content="#0B1F3A" />
+  <meta property="og:type" content={type} />
+  <meta property="og:title" content={fullTitle} />
+  <meta property="og:description" content={description} />
+  <meta property="og:url" content={canonical} />
+  <meta property="og:image" content={ogImage} />
+  <meta property="og:locale" content="en_ZA" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <link rel="alternate" type="application/rss+xml" title="Rush Fox Insights" href="/insights/rss.xml" />
+  <link rel="sitemap" href="/sitemap-index.xml" />
+  <script type="application/ld+json" set:html={JSON.stringify(ld)} />
+</head>
+<body>
+  <a class="skip" href="#main">Skip to content</a>
+  <div class="topbar">
+    <div class="wrap topbar-in">
+      <span>PSiRA Reg. {company.registrations.psira} · B-BBEE {company.registrations.bbbee} · CSD {company.registrations.csd}</span>
+      <span class="topbar-c"><a href={tel(company.phones[0])}><Icon name="phone" size={14} /> {company.phones[0]}</a><a href={`mailto:${company.email}`}><Icon name="mail" size={14} /> {company.email}</a></span>
+    </div>
+  </div>
+  <header class="site-header">
+    <div class="wrap header-in">
+      <a href="/" class="brand" aria-label="Rush Fox Security home"><img src="/brand/logo-horizontal-notag.svg" alt="Rush Fox Security & CCTV" width="220" height="62" /></a>
+      <input type="checkbox" id="navt" class="navt" aria-label="Open menu" />
+      <label for="navt" class="navt-btn" aria-hidden="true"><Icon name="menu" /></label>
+      <nav aria-label="Main">
+        <ul>
+          {nav.map((n) => <li><a href={n.href} class={active(n.href) ? 'on' : ''} aria-current={active(n.href) ? 'page' : undefined}>{n.label}</a></li>)}
+        </ul>
+        <a href="/contact#quote" class="btn btn-amber btn-sm">Request a Quote</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main"><slot /></main>
+
+  <footer class="site-footer">
+    <div class="wrap foot-grid">
+      <div>
+        <img src="/brand/logo-horizontal-white.svg" alt="Rush Fox Security & CCTV" width="260" height="80" class="foot-logo" />
+        <p>PSiRA-registered guarding and electronic security for business, government and residential clients in Limpopo.</p>
+      </div>
+      <div>
+        <h3>Services</h3>
+        <ul>
+          <li><a href="/services#guarding">Manned Guarding</a></li>
+          <li><a href="/services#technology">CCTV & Electronic Security</a></li>
+          <li><a href="/services#consulting">Risk Assessments & Consulting</a></li>
+          <li><a href="/compliance">Compliance & Accreditation</a></li>
+          <li><a href="/insights">Insights</a></li>
+        </ul>
+      </div>
+      <div>
+        <h3>Contact</h3>
+        <ul class="foot-contact">
+          {company.phones.map((p) => <li><a href={tel(p)}><Icon name="phone" size={15} /> {p}</a></li>)}
+          {company.whatsapp && <li><a href={`https://wa.me/${company.whatsapp}`} rel="noopener" target="_blank"><Icon name="whatsapp" size={15} /> WhatsApp {company.whatsappDisplay}</a></li>}
+          {company.emails.map((e) => <li><a href={`mailto:${e.address}`}><Icon name="mail" size={15} /> {e.address}</a></li>)}
+          <li><a href={company.address.mapsUrl} rel="noopener" target="_blank"><Icon name="pin" size={15} /> {company.address.line1}, {company.address.city}, {company.address.postalCode}</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-reg">
+      <div class="wrap foot-reg-in">
+        <span>© {new Date().getFullYear()} {company.legalName} · Reg. {company.registrations.cipc} · PSiRA {company.registrations.psira} · Director: {company.directorShort}</span>
+        <span><a href="/privacy">Privacy (POPIA)</a></span>
+      </div>
+    </div>
+  </footer>
+  {company.whatsapp && <a class="wa-float" href={`https://wa.me/${company.whatsapp}`} rel="noopener" target="_blank" aria-label={`WhatsApp Rush Fox Security on ${company.whatsappDisplay}`}><Icon name="whatsapp" size={28} /></a>}
+</body>
+</html>

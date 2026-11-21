@@ -1,0 +1,29 @@
+---
+import Base from '../../../layouts/Base.astro';
+import PageHead from '../../../components/PageHead.astro';
+import PostCard from '../../../components/PostCard.astro';
+import { publishedInsights, slugify } from '../../../lib/insights';
+import { insightCategories } from '../../../data/company';
+
+export async function getStaticPaths() {
+  const posts = await publishedInsights();
+  return insightCategories
+    .filter((c) => posts.some((p) => p.data.category === c))
+    .map((c) => ({ params: { cat: slugify(c) }, props: { cat: c, posts: posts.filter((p) => p.data.category === c) } }));
+}
+const { cat, posts } = Astro.props;
+const all = await publishedInsights();
+const used = insightCategories.filter((c) => all.some((p) => p.data.category === c));
+---
+<Base title={`${cat} | Insights`} description={`${cat} articles from Rush Fox Security.`}>
+  <PageHead kicker="Insights" title={cat} />
+  <section class="sec">
+    <div class="wrap">
+      <div class="filters">
+        <a href="/insights">All</a>
+        {used.map((c) => <a href={`/insights/category/${slugify(c)}`} class={c === cat ? 'on' : ''}>{c}</a>)}
+      </div>
+      <div class="posts">{posts.map((p) => <PostCard post={p} />)}</div>
+    </div>
+  </section>
+</Base>

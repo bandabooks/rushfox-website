@@ -1,0 +1,51 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PageHead from '../components/PageHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { manned, tech, consulting, steps, sectors } from '../data/company';
+const equipment = ['Full corporate uniform', 'Two-way radio / cellphone', 'Torch', 'Baton & handcuffs', 'Pepper spray', 'Metal detector (where required)', 'Occurrence book', 'Access control register', 'Pocket book', 'Firearm register (armed posts)'];
+---
+<Base title="Services" description="Manned guarding, patrols, access control, retail loss prevention, CCTV installation, AI video analytics, biometric access control, alarms, electric fencing, backup power and security risk assessments.">
+  <PageHead kicker="Services" title="Complete security: people, technology and expertise" text="From a single guard post to multi-site surveillance, access control and perimeter protection, with full after-sales support." />
+
+  <section class="sec" id="guarding">
+    <div class="wrap">
+      <div class="kicker">Service line 1</div>
+      <h2>Manned Guarding &amp; Protection</h2>
+      <p class="intro">Our PSiRA-registered security officers are the visible deterrent on every site. They are vetted, uniformed, equipped and supervised, and work to written post instructions agreed with the client.</p>
+      <div class="grid g3">{manned.map((s) => <div class="card"><div class="ci"><Icon name={s.icon} /></div><div><h3>{s.title}</h3><p>{s.text}</p></div></div>)}</div>
+      <h3 style="margin-top:36px">Standard officer equipment</h3>
+      <div class="chips">{equipment.map((e) => <span>{e}</span>)}</div>
+    </div>
+  </section>
+
+  <section class="sec tint" id="technology">
+    <div class="wrap">
+      <div class="kicker">Service line 2</div>
+      <h2>Electronic Security &amp; Technology</h2>
+      <p class="intro">We design, install, commission and maintain integrated electronic security systems, from a single camera to multi-site surveillance, access control and perimeter protection, with full after-sales support.</p>
+      <div class="grid g3">{tech.map((s) => <div class="card"><div class="ci"><Icon name={s.icon} /></div><div><h3>{s.title}</h3><p>{s.text}</p></div></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec" id="consulting">
+    <div class="wrap">
+      <div class="kicker">Service line 3</div>
+      <h2>Security Consulting &amp; Risk Management</h2>
+      <div class="grid g2" style="margin-top:24px">{consulting.map((s) => <div class="card"><div class="ci"><Icon name={s.icon} /></div><div><h3>{s.title}</h3><p>{s.text}</p></div></div>)}</div>
+    </div>
+  </section>
+
+  <section class="sec dark">
+    <div class="wrap">
+      <div class="kicker">How we work</div>
+      <h2>Our five-step approach</h2>
+      <div class="grid g5" style="margin-top:28px">{steps.map((s, i) => <div class="step" style="color:var(--ink)"><div class="n">{i + 1}</div><h3>{s.title}</h3><p>{s.text}</p></div>)}</div>
+      <h3 style="margin-top:48px">Sectors we serve</h3>
+      <div class="chips">{sectors.map((s) => <span>{s}</span>)}</div>
+    </div>
+  </section>
+
+  <section class="sec"><div class="wrap"><CtaBand /></div></section>
+</Base>

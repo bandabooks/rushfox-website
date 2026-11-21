@@ -1,0 +1,15 @@
+---
+import Icon from './Icon.astro';
+interface Props { post: { id: string; data: { title: string; description: string; date: Date; category: string; readingMinutes?: number } } }
+const { post } = Astro.props;
+const d = post.data.date.toLocaleDateString('en-ZA', { day: 'numeric', month: 'long', year: 'numeric' });
+---
+<a class="post-card" href={`/insights/${post.id}`}>
+  <div class="post-top"></div>
+  <div class="post-body">
+    <div class="post-meta"><span class="tag">{post.data.category}</span><span>{d}</span>{post.data.readingMinutes && <span>· {post.data.readingMinutes} min read</span>}</div>
+    <h3>{post.data.title}</h3>
+    <p>{post.data.description}</p>
+    <span class="more">Read article <Icon name="arrow" size={16} /></span>
+  </div>
+</a>

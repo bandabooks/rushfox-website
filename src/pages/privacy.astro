@@ -1,0 +1,20 @@
+---
+import Base from '../layouts/Base.astro';
+import PageHead from '../components/PageHead.astro';
+import { company } from '../data/company';
+---
+<Base title="Privacy Notice (POPIA)" description="How Rush Fox Security handles personal information under the Protection of Personal Information Act (POPIA).">
+  <PageHead kicker="Privacy" title="Privacy notice" text="How we handle personal information under the Protection of Personal Information Act 4 of 2013 (POPIA)." />
+  <div class="article">
+    <h2>Who we are</h2>
+    <p>{company.legalName} (Reg. {company.registrations.cipc}), {company.address.line1}, {company.address.city}, {company.address.postalCode}. Contact: <a href={`mailto:${company.email}`}>{company.email}</a>.</p>
+    <h2>What this website collects</h2>
+    <p>This website does not use tracking cookies or advertising trackers. When you use the quote form, your own email app prepares a message to us; we receive only the details you choose to send.</p>
+    <h2>How we use your information</h2>
+    <p>We use enquiry details only to respond to your request, prepare quotations and deliver contracted services. We do not sell or share your information with third parties for marketing.</p>
+    <h2>CCTV and access-control records</h2>
+    <p>Where we install or operate CCTV and access-control systems, footage and access records are handled for security purposes only, with restricted access, defined retention periods and secure storage, as agreed with each client.</p>
+    <h2>Your rights</h2>
+    <p>You may ask to see, correct or delete personal information we hold about you, or object to its use, by emailing <a href={`mailto:${company.email}`}>{company.email}</a>. You may also lodge a complaint with the Information Regulator (South Africa).</p>
+  </div>
+</Base>

@@ -1,0 +1,24 @@
+---
+import Base from '../../layouts/Base.astro';
+import PageHead from '../../components/PageHead.astro';
+import PostCard from '../../components/PostCard.astro';
+import CtaBand from '../../components/CtaBand.astro';
+import { publishedInsights, slugify } from '../../lib/insights';
+import { insightCategories } from '../../data/company';
+const posts = await publishedInsights();
+const used = insightCategories.filter((c) => posts.some((p) => p.data.category === c));
+---
+<Base title="Insights" description="Security tips, CCTV and access control guidance, compliance updates and company news from Rush Fox Security.">
+  <PageHead kicker="Insights" title="Security insights" text="Practical advice on guarding, CCTV, access control and keeping your business secure, published weekly." />
+  <section class="sec">
+    <div class="wrap">
+      <div class="filters">
+        <a href="/insights" class="on">All</a>
+        {used.map((c) => <a href={`/insights/category/${slugify(c)}`}>{c}</a>)}
+        <a href="/insights/rss.xml">RSS</a>
+      </div>
+      {posts.length ? <div class="posts">{posts.map((p) => <PostCard post={p} />)}</div> : <p>New articles are on the way.</p>}
+    </div>
+  </section>
+  <section class="sec tint"><div class="wrap"><CtaBand /></div></section>
+</Base>

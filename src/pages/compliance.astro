@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import PageHead from '../components/PageHead.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { compliance, company } from '../data/company';
+---
+<Base title="Compliance & Accreditation" description="Rush Fox Security is registered with CIPC, PSiRA, National Treasury CSD, CIDB, SARS, UIF, the Compensation Fund (COIDA) and NBCPSS, and holds B-BBEE Level 1 (EME) status.">
+  <PageHead kicker="Compliance & Accreditation" title="Registered, compliant and ready to serve the public sector" text="Compliance is the foundation of our brand. Rush Fox is registered with every regulator and statutory body that applies to a South African security service provider, and keeps its registrations current." />
+
+  <section class="sec">
+    <div class="wrap">
+      <div class="kicker">Government &amp; tender readiness</div>
+      <h2>Registrations at a glance</h2>
+      <div class="table-wrap" style="margin-top:24px">
+        <table class="comp">
+          <thead><tr><th>Authority</th><th>Registration</th><th>Number</th><th>Status / detail</th><th>Valid until</th></tr></thead>
+          <tbody>
+            {compliance.map((c) => <tr><td><b>{c.body}</b></td><td>{c.what}</td><td class="num">{c.number}</td><td>{c.status}</td><td class="vd">{c.valid}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+      <div class="note"><b>Supporting documents available on request:</b> CIPC registration certificate, PSiRA business and director certificates, PSiRA letter of good standing, SARS tax compliance status PIN, CSD registration report, B-BBEE sworn affidavit, CIDB registration, COIDA letter of good standing and bank confirmation letter.</div>
+    </div>
+  </section>
+
+  <section class="sec tint">
+    <div class="wrap split" style="align-items:start">
+      <div>
+        <div class="kicker">Legislative framework</div>
+        <h2>The laws we operate under</h2>
+        <ul>
+          <li>Private Security Industry Regulation Act 56 of 2001 and the PSiRA Code of Conduct</li>
+          <li>Basic Conditions of Employment Act and Sectoral Determination / NBCPSS agreements</li>
+          <li>Labour Relations Act</li>
+          <li>Occupational Health and Safety Act</li>
+          <li>Compensation for Occupational Injuries and Diseases Act (COIDA)</li>
+          <li>Protection of Personal Information Act (POPIA), for CCTV footage and access-control records</li>
+        </ul>
+      </div>
+      <div class="cbox">
+        <h3>For procurement officers</h3>
+        <p>Request our company profile with full registration details, or email <a href={`mailto:compliance@${company.domain}`} style="color:#fff">compliance@{company.domain}</a> for certified copies of any certificate listed above.</p>
+        <a class="btn btn-amber" href="/contact#quote"><Icon name="doc" size={18} /> Request our company profile</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec"><div class="wrap"><CtaBand /></div></section>
+</Base>
