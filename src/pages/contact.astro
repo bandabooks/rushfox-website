@@ -3,6 +3,8 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import PageHead from '../components/PageHead.astro';
 import { company, tel } from '../data/company';
+const provinces = ['Limpopo', 'Gauteng', 'Mpumalanga', 'North West', 'Free State', 'KwaZulu-Natal', 'Eastern Cape', 'Western Cape', 'Northern Cape'];
+const towns = ['Mokopane', 'Polokwane', 'Modimolle', 'Bela-Bela', 'Lephalale', 'Thabazimbi', 'Mookgophong', 'Musina', 'Thohoyandou', 'Tzaneen', 'Phalaborwa', 'Seshego', 'Mankweng', 'Lebowakgomo', 'Burgersfort', 'Makhado', 'Giyani'];
 const services = ['Manned guarding', 'CCTV installation', 'Access control', 'Alarm system', 'Electric fencing / perimeter', 'Risk assessment', 'Maintenance / SLA', 'Integrated solution', 'Other'];
 ---
 <Base title="Contact" description="Contact Rush Fox Security in Mokopane, Limpopo for a free site risk assessment and quotation for guarding, CCTV, access control or alarms.">
@@ -32,7 +34,11 @@ const services = ['Manned guarding', 'CCTV installation', 'Access control', 'Ala
           <div class="field"><label for="phone">Phone *</label><input id="phone" name="phone" type="tel" required autocomplete="tel" /></div>
           <div class="field"><label for="email">Email</label><input id="email" name="email" type="email" autocomplete="email" /></div>
           <div class="field"><label for="service">Service needed</label><select id="service" name="service">{services.map((s) => <option>{s}</option>)}</select></div>
-          <div class="field"><label for="town">Site location (town)</label><input id="town" name="town" placeholder="e.g. Mokopane" /></div>
+          <div class="field"><label for="province">Province *</label><select id="province" name="province" required>{provinces.map((p) => <option>{p}</option>)}</select></div>
+        </div>
+        <div class="fg">
+          <div class="field"><label for="town">Town / suburb *</label><input id="town" name="town" required list="towns" placeholder="e.g. Mokopane" autocomplete="address-level2" /><datalist id="towns">{towns.map((t) => <option value={t} />)}</datalist></div>
+          <div class="field"><label for="street">Street address (optional)</label><input id="street" name="street" autocomplete="street-address" placeholder="Site street address" /></div>
         </div>
         <div class="field"><label for="msg">Tell us about your site</label><textarea id="msg" name="msg" rows="5" placeholder="Type of premises, number of entrances, hours of cover needed, existing systems..."></textarea></div>
         <div class="field" style="display:flex;gap:10px;align-items:flex-start"><input type="checkbox" id="consent" required style="width:auto;margin-top:5px" /><label for="consent" style="font-weight:400">I agree that Rush Fox Security may use these details to respond to my enquiry, as set out in the <a href="/privacy">privacy notice</a>. *</label></div>
@@ -47,10 +53,10 @@ const services = ['Manned guarding', 'CCTV installation', 'Access control', 'Ala
   f.addEventListener('submit', (e) => {
     e.preventDefault();
     const v = (id) => (document.getElementById(id).value || '').trim();
-    const subject = `Quote request: ${v('service')} - ${v('org') || v('name')}`;
+    const subject = `Quote request: ${v('service')} - ${v('org') || v('name')} (${v('town')}, ${v('province')})`;
     const body = [
       `Name: ${v('name')}`, `Company: ${v('org')}`, `Phone: ${v('phone')}`, `Email: ${v('email')}`,
-      `Service: ${v('service')}`, `Site location: ${v('town')}`, '', v('msg'),
+      `Service: ${v('service')}`, `Province: ${v('province')}`, `Town / suburb: ${v('town')}`, `Street address: ${v('street')}`, '', v('msg'),
     ].join('\n');
     window.location.href = `mailto:${to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(body)}`;
   });
