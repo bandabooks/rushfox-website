@@ -47,7 +47,10 @@ npm run build    # output in dist/
 1. Push this project to the GitHub repository `rushfox-website` (branch `main`).
 2. The GitHub Action `.github/workflows/build-and-publish.yml` builds the site and pushes the finished files
    to the `deploy` branch, on every push and daily at 05:00 SAST.
-3. In Hostinger, connect the repository's **`deploy` branch** as a **static** website for the domain.
+3. Hostinger (account u549082618, website rushfox.co.za) serves the **`deploy` branch** as a static site.
+   It is currently cloned from the public HTTPS URL, so updates need a pull (hPanel → Websites → rushfox.co.za →
+   Advanced → Git → Deploy). To make updates automatic, give the Hostinger GitHub app access to this repository
+   (GitHub → Settings → Applications → Hostinger → Repository access), then switch the site to auto-deployment.
 4. In GitHub, go to Settings → Secrets and variables → Actions → Variables and add `SITE_URL`
    (e.g. `https://www.rushfox.co.za`).
 
