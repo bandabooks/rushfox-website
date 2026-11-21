@@ -16,7 +16,7 @@ import { compliance, company } from '../data/company';
         <table class="comp">
           <thead><tr><th>Authority</th><th>Registration</th><th>Number</th><th>Status / detail</th><th>Valid until</th></tr></thead>
           <tbody>
-            {compliance.map((c) => <tr><td><b>{c.body}</b></td><td>{c.what}</td><td class="num">{c.number}</td><td>{c.status}</td><td class="vd">{c.valid}</td></tr>)}
+            {compliance.map((c) => <tr><td data-l="Authority"><b>{c.body}</b></td><td data-l="Registration">{c.what}</td><td data-l="Number" class="num">{c.number}</td><td data-l="Status">{c.status}</td><td data-l="Valid until" class="vd">{c.valid}</td></tr>)}
           </tbody>
         </table>
       </div>

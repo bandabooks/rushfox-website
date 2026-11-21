@@ -198,3 +198,31 @@ input:focus,select:focus,textarea:focus{outline:3px solid rgba(242,140,40,.35);b
 .combo-list li.combo-empty{color:var(--steel);cursor:default}
 form.quote .fg{row-gap:0}
 form.quote .field{margin-bottom:18px}
+
+/* mobile polish */
+input,select,textarea{font-size:16px}
+.tag{font-size:.78rem}
+.post-meta{font-size:.86rem}
+@media (max-width:1020px){
+  nav ul a{padding:12px 10px;font-size:1rem}
+  nav .btn{justify-content:center;margin-top:8px}
+}
+@media (max-width:640px){
+  .table-wrap{box-shadow:none;overflow:visible}
+  table.comp{min-width:0}
+  .comp thead{display:none}
+  .comp,.comp tbody,.comp tr,.comp td{display:block;width:100%}
+  .comp tr{background:#fff;border:1px solid var(--line);border-left:5px solid var(--amber);border-radius:var(--r);margin-bottom:14px;padding:6px 4px;box-shadow:var(--shadow)}
+  .comp tr:nth-child(even) td{background:transparent}
+  .comp td{border:0;padding:6px 12px;display:grid;grid-template-columns:42% 58%;gap:8px}
+  .comp td::before{content:attr(data-l);font-family:var(--head);font-weight:700;font-size:.78rem;letter-spacing:.04em;text-transform:uppercase;color:var(--steel)}
+  .comp td:first-child b{font-size:1.05rem}
+  .site-footer li{margin-bottom:12px}
+  .foot-reg-in{padding-bottom:86px}
+  .wa-float{right:14px;bottom:14px;width:54px;height:54px}
+  form.quote,.cbox{padding:22px}
+  .cta-band .btn{width:100%;justify-content:center}
+  .hero-cta .btn{width:100%;justify-content:center}
+  .phead{padding:44px 0 40px}
+  .topbar a{font-size:.78rem}
+}
