@@ -1,0 +1,520 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a22">
+  <meta name="description" content="Rush Fox brings people, practical security planning and integrated technology together to protect the places that matter.">
+  <title>Rush Fox | Security built around you</title>
+  <style>
+    :root {
+      color-scheme: light;
+      --ink: #17232c;
+      --muted: #65717a;
+      --paper: #f5f4ef;
+      --white: #fff;
+      --night: #101a22;
+      --night-soft: #1b2933;
+      --line: #dce0dd;
+      --lime: #d1f36a;
+      --orange: #f6a45c;
+      --serif: Georgia, "Times New Roman", serif;
+      --sans: "Avenir Next", Avenir, "Segoe UI", sans-serif;
+      --width: 1180px;
+    }
+
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; scroll-padding-top: 84px; }
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family: var(--sans);
+      font-size: 16px;
+      line-height: 1.65;
+      -webkit-font-smoothing: antialiased;
+    }
+    a { color: inherit; }
+    a:focus-visible, button:focus-visible { outline: 3px solid var(--orange); outline-offset: 4px; }
+    .wrap { width: min(var(--width), calc(100% - 48px)); margin-inline: auto; }
+    .eyebrow {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin: 0 0 18px;
+      color: #64722e;
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+    }
+    .eyebrow::before { width: 25px; height: 2px; background: currentColor; content: ""; }
+    h1, h2, h3, p { margin-top: 0; }
+    h1, h2, .serif { font-family: var(--serif); font-weight: 400; letter-spacing: -.035em; }
+    h2 { max-width: 760px; margin-bottom: 20px; font-size: clamp(2.5rem, 5vw, 4.6rem); line-height: 1.02; }
+    h3 { margin-bottom: 10px; font-size: 1.08rem; line-height: 1.3; }
+    .lede { max-width: 630px; color: var(--muted); font-size: 1.08rem; }
+    .section { padding: 110px 0; }
+    .section-head { margin-bottom: 48px; }
+
+    .topbar {
+      position: sticky;
+      z-index: 10;
+      top: 0;
+      border-bottom: 1px solid rgb(255 255 255 / 10%);
+      background: rgb(16 26 34 / 96%);
+      color: var(--white);
+      backdrop-filter: blur(14px);
+    }
+    .nav {
+      display: flex;
+      min-height: 76px;
+      align-items: center;
+      justify-content: space-between;
+      gap: 28px;
+    }
+    .brand {
+      display: inline-flex;
+      align-items: center;
+      gap: 11px;
+      color: var(--white);
+      font-size: 18px;
+      font-weight: 800;
+      letter-spacing: -.04em;
+      text-decoration: none;
+      white-space: nowrap;
+    }
+    .brand-mark {
+      display: grid;
+      width: 34px;
+      height: 34px;
+      place-items: center;
+      border-radius: 50%;
+      background: var(--lime);
+      color: var(--night);
+      font-size: 13px;
+      font-weight: 900;
+      letter-spacing: -.08em;
+    }
+    .nav-links { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: 8px 22px; }
+    .nav-links a {
+      color: #d1d7da;
+      font-size: 12px;
+      font-weight: 650;
+      text-decoration: none;
+      transition: color .2s ease;
+    }
+    .nav-links a:hover { color: var(--lime); }
+
+    .hero {
+      position: relative;
+      overflow: hidden;
+      padding: 92px 0 100px;
+      background: var(--night);
+      color: var(--white);
+    }
+    .hero::after {
+      position: absolute;
+      top: -180px;
+      right: -120px;
+      width: 660px;
+      height: 660px;
+      border: 1px solid rgb(209 243 106 / 18%);
+      border-radius: 50%;
+      box-shadow: 0 0 0 55px rgb(209 243 106 / 3%), 0 0 0 115px rgb(209 243 106 / 2%);
+      content: "";
+      pointer-events: none;
+    }
+    .hero-grid { position: relative; z-index: 1; display: grid; grid-template-columns: 1.2fr .8fr; align-items: end; gap: 72px; }
+    .hero .eyebrow { color: var(--lime); }
+    .hero h1 { max-width: 750px; margin-bottom: 26px; font-size: clamp(3.7rem, 8.5vw, 7.7rem); line-height: .92; }
+    .hero h1 span { color: var(--lime); font-style: italic; }
+    .hero-copy { max-width: 530px; margin-bottom: 34px; color: #b8c2c7; font-size: 1.08rem; }
+    .actions { display: flex; flex-wrap: wrap; align-items: center; gap: 14px; }
+    .button {
+      display: inline-flex;
+      min-height: 50px;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 0 20px;
+      border: 1px solid transparent;
+      border-radius: 3px;
+      background: var(--lime);
+      color: var(--night);
+      font-size: 13px;
+      font-weight: 800;
+      text-decoration: none;
+      transition: transform .2s ease, background .2s ease;
+    }
+    .button:hover { transform: translateY(-2px); background: #e0ff88; }
+    .button.secondary { border-color: rgb(255 255 255 / 27%); background: transparent; color: var(--white); }
+    .button.secondary:hover { border-color: var(--lime); color: var(--lime); }
+    .hero-note {
+      max-width: 280px;
+      justify-self: end;
+      padding: 22px 0 8px 24px;
+      border-left: 1px solid rgb(209 243 106 / 45%);
+      color: #b8c2c7;
+      font-size: 14px;
+    }
+    .hero-note strong { display: block; margin-bottom: 8px; color: var(--white); font-family: var(--serif); font-size: 26px; font-weight: 400; }
+    .hero-note .index { display: block; margin-bottom: 16px; color: var(--lime); font-size: 11px; font-weight: 800; letter-spacing: .13em; }
+    .hero-foot {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 84px;
+      padding-top: 18px;
+      border-top: 1px solid rgb(255 255 255 / 15%);
+      color: #8d999f;
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: .14em;
+      text-transform: uppercase;
+    }
+
+    .about-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; }
+    .about-aside { padding-top: 12px; }
+    .about-aside .serif { max-width: 280px; margin: 0; font-size: 2rem; line-height: 1.2; }
+    .about-copy > p { max-width: 700px; color: var(--muted); }
+    .principles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 44px; padding-top: 30px; border-top: 1px solid var(--line); }
+    .principle-number { display: block; margin-bottom: 16px; color: #8c9a50; font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+    .principles p { margin-bottom: 0; color: var(--muted); font-size: 14px; }
+
+    .dark-section { background: var(--night); color: var(--white); }
+    .dark-section .eyebrow { color: var(--lime); }
+    .dark-section .lede { color: #aab5bb; }
+    .guard-grid { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid rgb(255 255 255 / 18%); border-left: 1px solid rgb(255 255 255 / 18%); }
+    .guard-card { min-height: 205px; padding: 27px 26px; border-right: 1px solid rgb(255 255 255 / 18%); border-bottom: 1px solid rgb(255 255 255 / 18%); }
+    .card-number { display: block; margin-bottom: 38px; color: var(--lime); font-size: 11px; font-weight: 800; letter-spacing: .1em; }
+    .guard-card p { margin: 0; color: #9eabb1; font-size: 13px; }
+    .guard-card h3 { font-family: var(--serif); font-size: 1.42rem; font-weight: 400; }
+
+    .technology { background: #e9ebe5; }
+    .service-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; border: 1px solid #d5dad3; background: #d5dad3; }
+    .service-card { min-height: 205px; padding: 25px 22px; background: #e9ebe5; }
+    .service-card .card-number { margin-bottom: 36px; color: #78843c; }
+    .service-card p { margin: 0; color: var(--muted); font-size: 13px; }
+    .service-card h3 { font-family: var(--serif); font-size: 1.25rem; font-weight: 400; }
+    .maintenance {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      align-items: center;
+      gap: 28px;
+      margin-top: 28px;
+      padding: 28px 32px;
+      background: var(--night);
+      color: var(--white);
+    }
+    .maintenance h3 { margin-bottom: 5px; font-family: var(--serif); font-size: 1.5rem; font-weight: 400; }
+    .maintenance p { margin: 0; color: #aab5bb; font-size: 13px; }
+    .maintenance .tag { color: var(--lime); font-size: 11px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+
+    .consulting-grid { display: grid; grid-template-columns: .8fr 1.2fr; gap: 90px; }
+    .steps { counter-reset: step; border-top: 1px solid var(--line); }
+    .step {
+      display: grid;
+      grid-template-columns: 54px 1fr;
+      gap: 14px;
+      padding: 21px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .step-number { color: #78843c; font-size: 12px; font-weight: 800; }
+    .step h3 { margin-bottom: 4px; font-family: var(--serif); font-size: 1.3rem; font-weight: 400; }
+    .step p { margin: 0; color: var(--muted); font-size: 13px; }
+    .sector-list { display: flex; flex-wrap: wrap; gap: 9px; margin-top: 36px; }
+    .sector-list span { padding: 8px 12px; border: 1px solid var(--line); border-radius: 99px; color: #4e5b61; font-size: 12px; }
+    .sector-list .sector-label { flex-basis: 100%; padding: 0; border: 0; color: #64722e; font-size: 10px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; }
+
+    .tender { background: #e9ebe5; }
+    .table-wrap { overflow-x: auto; border: 1px solid #d4d9d3; background: var(--white); }
+    table { width: 100%; border-collapse: collapse; text-align: left; }
+    th, td { padding: 17px 20px; border-bottom: 1px solid #e4e7e2; vertical-align: top; }
+    th { background: var(--night); color: var(--white); font-size: 11px; letter-spacing: .1em; text-transform: uppercase; }
+    td { font-size: 13px; }
+    td:first-child { width: 32%; font-weight: 700; }
+    td:last-child { color: #69747a; }
+    tr:last-child td { border-bottom: 0; }
+    .table-note { margin: 14px 0 0; color: #69747a; font-size: 12px; }
+
+    .operations-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 90px; }
+    .operation-list { margin: 0; padding: 0; list-style: none; border-top: 1px solid rgb(255 255 255 / 18%); }
+    .operation-list li { display: grid; grid-template-columns: 40px 1fr; gap: 14px; padding: 19px 0; border-bottom: 1px solid rgb(255 255 255 / 18%); }
+    .operation-list span { color: var(--lime); font-size: 11px; font-weight: 800; }
+    .operation-list strong { display: block; margin-bottom: 4px; font-family: var(--serif); font-size: 1.25rem; font-weight: 400; }
+    .operation-list p { margin: 0; color: #aab5bb; font-size: 13px; }
+    .leadership-card { padding: 32px; border: 1px solid rgb(255 255 255 / 20%); }
+    .leadership-card .eyebrow { margin-bottom: 25px; }
+    .leadership-card h3 { max-width: 390px; font-family: var(--serif); font-size: 2rem; font-weight: 400; line-height: 1.15; }
+    .leadership-card p { color: #aab5bb; font-size: 14px; }
+    .leadership-card .verify { margin: 28px 0 0; padding-top: 18px; border-top: 1px solid rgb(255 255 255 / 18%); color: var(--lime); font-size: 11px; }
+
+    .contact { padding: 95px 0 30px; background: #d1f36a; }
+    .contact-grid { display: grid; grid-template-columns: 1.2fr .8fr; align-items: end; gap: 70px; }
+    .contact .eyebrow { color: #4a5920; }
+    .contact h2 { max-width: 700px; margin-bottom: 20px; }
+    .contact .lede { max-width: 570px; color: #49553a; }
+    .contact-card { padding: 25px 0 0 27px; border-left: 1px solid rgb(23 35 44 / 30%); }
+    .contact-card span { display: block; margin-bottom: 5px; color: #536328; font-size: 10px; font-weight: 800; letter-spacing: .13em; text-transform: uppercase; }
+    .contact-card p { margin: 0 0 18px; font-size: 14px; }
+    .contact-card p:last-child { margin-bottom: 0; }
+    .contact .button { margin-top: 8px; background: var(--night); color: var(--white); }
+    .contact .button:hover { background: var(--night-soft); }
+    footer { display: flex; justify-content: space-between; gap: 20px; padding-top: 28px; margin-top: 78px; border-top: 1px solid rgb(23 35 44 / 22%); color: #4b5934; font-size: 11px; }
+    footer a { text-decoration: none; }
+
+    @media (max-width: 900px) {
+      .hero-grid, .about-grid, .consulting-grid, .operations-grid, .contact-grid { grid-template-columns: 1fr; gap: 44px; }
+      .hero-note { justify-self: start; max-width: 440px; }
+      .service-grid { grid-template-columns: repeat(3, 1fr); }
+      .about-aside .serif { max-width: 550px; }
+      .contact-card { max-width: 480px; }
+    }
+    @media (max-width: 650px) {
+      .wrap { width: min(var(--width), calc(100% - 36px)); }
+      .nav { min-height: auto; align-items: flex-start; flex-direction: column; gap: 12px; padding-block: 14px; }
+      .nav-links { justify-content: flex-start; gap: 6px 15px; }
+      .nav-links a { font-size: 11px; }
+      .hero { padding: 68px 0 65px; }
+      .hero h1 { font-size: clamp(3.4rem, 17vw, 5.2rem); }
+      .hero-foot { flex-direction: column; gap: 7px; margin-top: 56px; }
+      .section { padding: 76px 0; }
+      .section-head { margin-bottom: 34px; }
+      .principles { grid-template-columns: 1fr; gap: 25px; }
+      .guard-grid { grid-template-columns: repeat(2, 1fr); }
+      .guard-card { min-height: 185px; padding: 21px 17px; }
+      .service-grid { grid-template-columns: repeat(2, 1fr); }
+      .service-card { min-height: 190px; padding: 19px 16px; }
+      .maintenance { grid-template-columns: 1fr; padding: 24px; }
+      th, td { min-width: 155px; padding: 13px 15px; }
+      td:first-child { min-width: 200px; }
+      .leadership-card { padding: 24px; }
+      .contact { padding-top: 72px; }
+      footer { flex-direction: column; margin-top: 58px; }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      html { scroll-behavior: auto; }
+      *, *::before, *::after { transition-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar">
+    <nav class="nav wrap" aria-label="Main navigation">
+      <a class="brand" href="#home" aria-label="Rush Fox home"><span class="brand-mark" aria-hidden="true">RF</span> RUSH FOX</a>
+      <div class="nav-links">
+        <a href="#about">Our story</a>
+        <a href="#guarding">Guarding</a>
+        <a href="#technology">Technology</a>
+        <a href="#consulting">Consulting</a>
+        <a href="#tenders">Tenders</a>
+        <a href="#contact">Contact</a>
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="home">
+      <div class="wrap">
+        <div class="hero-grid">
+          <div>
+            <p class="eyebrow">People. Planning. Protection.</p>
+            <h1>Security that<br>moves with <span>you.</span></h1>
+            <p class="hero-copy">Rush Fox brings people, practical security planning and connected technology together to help protect the places and people that matter.</p>
+            <div class="actions">
+              <a class="button" href="#contact">Start a conversation <span aria-hidden="true">↗</span></a>
+              <a class="button secondary" href="#services">Explore our services</a>
+            </div>
+          </div>
+          <aside class="hero-note">
+            <span class="index">A MORE CONNECTED APPROACH</span>
+            <strong>One partner.<br>A clearer picture.</strong>
+            From on-site guarding to electronic systems and risk advice, build a security approach around your needs.
+          </aside>
+        </div>
+        <div class="hero-foot">
+          <span>Security services &amp; solutions</span>
+          <span>Designed around your environment</span>
+          <span>Rush Fox</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="about">
+      <div class="wrap about-grid">
+        <div class="about-aside">
+          <p class="eyebrow">About Rush Fox</p>
+          <p class="serif">Good security starts with understanding what you need to protect.</p>
+        </div>
+        <div class="about-copy">
+          <h2>Protection with purpose.</h2>
+          <p>Every site, team and community faces a different mix of risks. Rush Fox is built around a straightforward idea: start by listening, understand the environment, then bring the right people and tools together in a practical plan.</p>
+          <p>Our story is one of partnership—making security easier to understand, coordinate and improve. We aim to be a dependable partner, responsive to the realities on the ground and focused on the outcomes that matter to each client.</p>
+          <div class="principles">
+            <article>
+              <span class="principle-number">01 / OUR VISION</span>
+              <h3>A safer, more confident future</h3>
+              <p>To help create environments where people can work, live and thrive with greater peace of mind.</p>
+            </article>
+            <article>
+              <span class="principle-number">02 / OUR MISSION</span>
+              <h3>Make protection practical</h3>
+              <p>To provide considered security services and solutions shaped around each client’s needs.</p>
+            </article>
+            <article>
+              <span class="principle-number">03 / OUR VALUES</span>
+              <h3>Trust, care, accountability</h3>
+              <p>We value integrity, respect, vigilance and clear communication in every relationship.</p>
+            </article>
+          </div>
+          <p style="margin:30px 0 0"><strong>Why Rush Fox?</strong> A joined-up view of people, physical security, technology and risk—so decisions can be informed by the whole picture, not just one part of it.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section dark-section" id="services">
+      <div class="wrap" id="guarding">
+        <div class="section-head">
+          <p class="eyebrow">Manned guarding / 09 services</p>
+          <h2>Present, professional, prepared.</h2>
+          <p class="lede">A visible and considered on-site presence can help people feel supported and environments stay better managed. Match the service to your site, operating hours and risk profile.</p>
+        </div>
+        <div class="guard-grid">
+          <article class="guard-card"><span class="card-number">01</span><h3>Static guarding</h3><p>On-site security presence for buildings, facilities and defined areas.</p></article>
+          <article class="guard-card"><span class="card-number">02</span><h3>Access control</h3><p>Support for entry procedures, visitor management and site rules.</p></article>
+          <article class="guard-card"><span class="card-number">03</span><h3>Mobile patrols</h3><p>Scheduled or site-specific patrol coverage to support visibility and checks.</p></article>
+          <article class="guard-card"><span class="card-number">04</span><h3>Retail security</h3><p>Customer-aware guarding and loss-prevention support for retail settings.</p></article>
+          <article class="guard-card"><span class="card-number">05</span><h3>Construction &amp; site security</h3><p>Guarding for active sites, equipment and controlled work areas.</p></article>
+          <article class="guard-card"><span class="card-number">06</span><h3>Residential &amp; estate guarding</h3><p>Security presence for residential communities and shared facilities.</p></article>
+          <article class="guard-card"><span class="card-number">07</span><h3>Events &amp; crowd support</h3><p>Access, stewarding and security planning for organised gatherings.</p></article>
+          <article class="guard-card"><span class="card-number">08</span><h3>Executive protection</h3><p>Personal security support planned around individual requirements.</p></article>
+          <article class="guard-card"><span class="card-number">09</span><h3>Control-room coordination</h3><p>Communication and incident escalation support across security operations.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section technology" id="technology">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Electronic security / 12 services</p>
+          <h2>Technology that works as a system.</h2>
+          <p class="lede">Choose individual solutions or bring them together into a coordinated security setup. The right combination depends on your site, infrastructure and operating needs.</p>
+        </div>
+        <div class="service-grid">
+          <article class="service-card"><span class="card-number">01</span><h3>CCTV surveillance</h3><p>Video coverage planned around visibility, operations and site layout.</p></article>
+          <article class="service-card"><span class="card-number">02</span><h3>AI video analytics &amp; number-plate recognition</h3><p>Analytic tools and vehicle identification options for suitable deployments.</p></article>
+          <article class="service-card"><span class="card-number">03</span><h3>Remote monitoring</h3><p>Off-site visibility and response coordination for connected systems.</p></article>
+          <article class="service-card"><span class="card-number">04</span><h3>Biometric access control</h3><p>Identity-based access options for managed entry points.</p></article>
+          <article class="service-card"><span class="card-number">05</span><h3>Turnstiles &amp; boom gates</h3><p>People and vehicle entry equipment for controlled access.</p></article>
+          <article class="service-card"><span class="card-number">06</span><h3>Gate automation</h3><p>Automated entry solutions selected for site conditions and use.</p></article>
+          <article class="service-card"><span class="card-number">07</span><h3>Intercom systems</h3><p>Communication at entrances and between selected areas.</p></article>
+          <article class="service-card"><span class="card-number">08</span><h3>Intruder alarms</h3><p>Detection systems configured to help alert teams to unauthorised entry.</p></article>
+          <article class="service-card"><span class="card-number">09</span><h3>Electric fencing &amp; perimeter detection</h3><p>Perimeter deterrence and detection for appropriate sites.</p></article>
+          <article class="service-card"><span class="card-number">10</span><h3>Fire detection</h3><p>Detection solutions planned to suit a building’s requirements.</p></article>
+          <article class="service-card"><span class="card-number">11</span><h3>Networking &amp; backup power</h3><p>Connectivity and power-continuity support, including load-shedding needs.</p></article>
+          <article class="service-card"><span class="card-number">12</span><h3>Locksmith services</h3><p>Lock and key services for access and security requirements.</p></article>
+        </div>
+        <div class="maintenance">
+          <div><h3>Maintenance contracts</h3><p>Planned servicing and ongoing support help keep installed security systems working as intended.</p></div>
+          <span class="tag">Support for the long run</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="consulting">
+      <div class="wrap consulting-grid">
+        <div>
+          <p class="eyebrow">Consulting / start with risk</p>
+          <h2>Know the risk. Plan the response.</h2>
+          <p class="lede">A clear risk assessment helps you understand where you are exposed, what matters most and which actions are practical to take next.</p>
+          <div class="sector-list">
+            <span class="sector-label">Sectors we can support</span>
+            <span>Corporate &amp; offices</span><span>Residential &amp; estates</span>
+            <span>Retail</span><span>Construction</span><span>Industrial</span>
+            <span>Education</span><span>Healthcare</span><span>Hospitality</span>
+            <span>Public sector</span>
+          </div>
+        </div>
+        <div class="steps" aria-label="Five-step security consulting approach">
+          <article class="step"><span class="step-number">STEP 01</span><div><h3>Listen &amp; define</h3><p>Understand your objectives, operating context and concerns.</p></div></article>
+          <article class="step"><span class="step-number">STEP 02</span><div><h3>Assess the environment</h3><p>Review the site, existing controls, people flows and relevant threats.</p></div></article>
+          <article class="step"><span class="step-number">STEP 03</span><div><h3>Identify and prioritise risk</h3><p>Map vulnerabilities and consider their potential impact and likelihood.</p></div></article>
+          <article class="step"><span class="step-number">STEP 04</span><div><h3>Recommend a practical plan</h3><p>Set out proportionate actions, responsibilities and suggested priorities.</p></div></article>
+          <article class="step"><span class="step-number">STEP 05</span><div><h3>Review &amp; improve</h3><p>Revisit the approach as your operation, environment or risks change.</p></div></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section tender" id="tenders">
+      <div class="wrap">
+        <div class="section-head">
+          <p class="eyebrow">Government &amp; tenders / compliance</p>
+          <h2>Clear information for confident evaluation.</h2>
+          <p class="lede">A tender-ready compliance schedule should make it easy to verify each registration and supporting document. The entries below must be completed from Rush Fox’s current official records before submission.</p>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead><tr><th scope="col">Registration / document</th><th scope="col">Reference or status</th><th scope="col">Verification</th></tr></thead>
+            <tbody>
+              <tr><td>Company registration number</td><td>To be provided</td><td>Confirm against current company registration certificate.</td></tr>
+              <tr><td>Tax compliance / tax reference</td><td>To be provided</td><td>Confirm current status and reference with the relevant revenue authority.</td></tr>
+              <tr><td>Security industry registration</td><td>To be provided</td><td>Enter applicable registration number(s), category and validity dates.</td></tr>
+              <tr><td>Public procurement supplier record</td><td>To be provided</td><td>Enter supplier number and attach a current registration report.</td></tr>
+              <tr><td>Compensation / workplace cover</td><td>To be provided</td><td>Enter applicable registration or letter-of-good-standing details.</td></tr>
+              <tr><td>VAT registration (if applicable)</td><td>To be confirmed</td><td>Provide the verified number or state that registration is not applicable.</td></tr>
+              <tr><td>Other required licences or certificates</td><td>To be provided</td><td>List only requirements relevant to the tender and service scope.</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="table-note">This is a compliance schedule template, not a confirmation of registration or tender eligibility. Verify every entry and attach valid supporting documents for each procurement submission.</p>
+      </div>
+    </section>
+
+    <section class="section dark-section" id="leadership">
+      <div class="wrap operations-grid">
+        <div>
+          <p class="eyebrow">Leadership &amp; operations</p>
+          <h2>Good security is a team effort.</h2>
+          <p class="lede">Reliable delivery depends on clear responsibilities, communication and operational discipline—from the first briefing through day-to-day service.</p>
+          <ul class="operation-list">
+            <li><span>01</span><div><strong>Understand the assignment</strong><p>Align site requirements, duties, communication routes and escalation procedures.</p></div></li>
+            <li><span>02</span><div><strong>Coordinate people &amp; systems</strong><p>Connect on-site teams, technology and client contacts around agreed procedures.</p></div></li>
+            <li><span>03</span><div><strong>Review and adapt</strong><p>Use feedback and operational reviews to identify changes and improvement opportunities.</p></div></li>
+          </ul>
+        </div>
+        <aside class="leadership-card">
+          <p class="eyebrow">Leadership</p>
+          <h3>Accountability starts with visible leadership.</h3>
+          <p>Our leadership and operations teams are responsible for setting expectations, supporting service delivery and maintaining open communication with clients.</p>
+          <p class="verify">Add verified leadership names, roles and biographies before publication.</p>
+        </aside>
+      </div>
+    </section>
+  </main>
+
+  <section class="contact" id="contact">
+    <div class="wrap">
+      <div class="contact-grid">
+        <div>
+          <p class="eyebrow">Contact Rush Fox</p>
+          <h2>Let’s talk about what matters to you.</h2>
+          <p class="lede">Tell us about your site, your concerns or a tender requirement. We’ll start by understanding what you need and help you explore the next step.</p>
+          <a class="button" href="#consulting">Discuss your requirements <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="contact-card" id="contact-details">
+          <p><span>Phone</span>Contact number to be added</p>
+          <p><span>Email</span>Verified contact email to be added</p>
+          <p><span>Office</span>Verified business address to be added</p>
+          <p><span>Office hours</span>To be confirmed</p>
+        </div>
+      </div>
+      <footer>
+        <a class="brand" href="#home"><span class="brand-mark" aria-hidden="true">RF</span> RUSH FOX</a>
+        <span>Security built around you.</span>
+        <span>© <span id="year">2026</span> Rush Fox</span>
+      </footer>
+    </div>
+  </section>
+</body>
+</html>
